@@ -1,6 +1,7 @@
 package com.netledger.suitespring;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,14 +9,20 @@ import java.util.Map;
  * Created by dbrook on 01/07/2015.
  */
 public class BeanObj {
-    String name;
-    String className;
-    List<BeanProperty> properties;
+    private final String name;
+    private final String className;
+    private final Map<String, String> values;
+    private final Map<String, String> references;
 
-    public BeanObj(String name, String className, List<BeanProperty> properties) {
+    public BeanObj(String name, String className, Map<String, String> values, Map<String, String> references) {
         this.name = name;
         this.className = className;
-        this.properties = properties;
+        this.values = values;
+        this.references = references;
+    }
+
+    public BeanObj(String name, String className) {
+        this(name, className, new HashMap<>(), new HashMap<>());
     }
 
     public String getName() {
@@ -26,7 +33,11 @@ public class BeanObj {
         return className;
     }
 
-    public List<BeanProperty> getProperties() {
-        return properties;
+    public Map<String, String> getReferences() {
+        return references;
+    }
+
+    public Map<String, String> getValues() {
+        return values;
     }
 }

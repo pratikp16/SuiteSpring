@@ -16,8 +16,8 @@ public class GraphCheckerTest {
     @Test
     public void detectsDuplicateBeans() {
         Map<String, BeanObj> beanGraph = new HashMap<>();
-        beanGraph.put("foo", new BeanObj("foo", "Foo", new ArrayList<BeanProperty>()));
-        beanGraph.put("bar", new BeanObj("foo", "Foo", new ArrayList<BeanProperty>()));
+        beanGraph.put("foo", new BeanObj("foo", "Foo"));
+        beanGraph.put("bar", new BeanObj("foo", "Foo"));
 
         GraphChecker graphChecker = new GraphChecker(beanGraph);
         try {

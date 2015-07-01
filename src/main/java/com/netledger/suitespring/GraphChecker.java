@@ -28,10 +28,6 @@ public class GraphChecker {
                 throw new DuplicateBeanException("Found duplicate bean: " + name);
             }
             visited.put(bean.getName(), true);
-
-            for(BeanProperty prop : bean.getProperties()) {
-                // Check references are sane.
-            }
         }
 
         return true;

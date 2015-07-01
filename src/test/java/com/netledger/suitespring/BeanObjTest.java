@@ -3,6 +3,7 @@ package com.netledger.suitespring;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static org.junit.Assert.*;
 
@@ -12,9 +13,10 @@ import static org.junit.Assert.*;
 public class BeanObjTest {
     @Test
     public void construct() {
-        BeanObj bean = new BeanObj("foo", "Foo", new ArrayList<>());
+        BeanObj bean = new BeanObj("foo", "Foo", new HashMap<>(), new HashMap<>());
         assertEquals("foo", bean.getName());
         assertEquals("Foo", bean.getClassName());
-        assertEquals(new ArrayList<>(), bean.getProperties());
+        assertEquals(new HashMap<String, String>(), bean.getValues());
+        assertEquals(new HashMap<String, String>(), bean.getReferences());
     }
 }
