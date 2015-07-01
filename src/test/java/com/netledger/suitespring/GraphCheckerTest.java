@@ -1,5 +1,6 @@
 package com.netledger.suitespring;
 
+import com.netledger.suitespring.exception.BeanReferenceCycleException;
 import com.netledger.suitespring.exception.DuplicateBeanException;
 import com.netledger.suitespring.exception.UnknownBeanReferenceException;
 import org.junit.Test;
@@ -15,7 +16,7 @@ import static org.junit.Assert.*;
  */
 public class GraphCheckerTest {
     @Test
-    public void detectsDuplicateBeans() throws UnknownBeanReferenceException {
+    public void detectsDuplicateBeans() throws Exception {
         Map<String, BeanObj> beanGraph = new HashMap<>();
         beanGraph.put("foo", new BeanObj("foo", "Foo"));
         beanGraph.put("bar", new BeanObj("foo", "Foo"));
@@ -32,9 +33,9 @@ public class GraphCheckerTest {
     }
 
     @Test
-    public void detectUnknownBeanReferences() throws DuplicateBeanException {
+    public void detectUnknownBeanReferences() throws Exception {
         Map<String, String> prop = new HashMap<>();
-        prop.put("foo", "NotABean");
+        prop.put("xxx", "NotABean");
         Map<String, BeanObj> beanGraph = new HashMap<>();
         beanGraph.put("foo", new BeanObj("foo", "Foo", new HashMap<>(), prop));
 
@@ -47,5 +48,23 @@ public class GraphCheckerTest {
         }
 
         fail("Didn't throw UnknownBeanReferenceException");
+    }
+
+    @Test
+    public void detectBeanReferenceCycles() throws Exception {
+        Map<String, String> prop = new HashMap<>();
+        prop.put("xxx", "foo");
+        Map<String, BeanObj> beanGraph = new HashMap<>();
+        beanGraph.put("foo", new BeanObj("foo", "Foo", new HashMap<>(), prop));
+
+        GraphChecker graphChecker = new GraphChecker(beanGraph);
+        try {
+            graphChecker.verify();
+        } catch(BeanReferenceCycleException e) {
+            assertEquals("Detected bean reference cycle for foo", e.getMessage());
+            return;
+        }
+
+        fail("Didn't throw BeanReferenceCycleException");
     }
 }

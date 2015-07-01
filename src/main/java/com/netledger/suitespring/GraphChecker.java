@@ -1,5 +1,6 @@
 package com.netledger.suitespring;
 
+import com.netledger.suitespring.exception.BeanReferenceCycleException;
 import com.netledger.suitespring.exception.DuplicateBeanException;
 import com.netledger.suitespring.exception.UnknownBeanReferenceException;
 
@@ -16,11 +17,11 @@ public class GraphChecker {
         this.beanGraph = graph;
     }
 
-    boolean verify() throws DuplicateBeanException, UnknownBeanReferenceException {
+    boolean verify() throws DuplicateBeanException, UnknownBeanReferenceException, BeanReferenceCycleException {
         return performVerification(beanGraph);
     }
 
-    boolean performVerification(Map<String, BeanObj> toCheck) throws DuplicateBeanException, UnknownBeanReferenceException {
+    boolean performVerification(Map<String, BeanObj> toCheck) throws DuplicateBeanException, UnknownBeanReferenceException, BeanReferenceCycleException {
         Map<String, Boolean> visited = new HashMap<>();
         // Duplicate checking.
         for(BeanObj bean : toCheck.values()) {
@@ -34,6 +35,9 @@ public class GraphChecker {
             for(String ref : bean.getReferences().values()) {
                 if(!beanGraph.containsKey(ref)) {
                     throw new UnknownBeanReferenceException("Unknown bean reference: " + ref);
+                }
+                if(ref.equals(name)) {
+                    throw new BeanReferenceCycleException("Detected bean reference cycle for " + name);
                 }
             }
         }
