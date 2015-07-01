@@ -1,6 +1,7 @@
 package com.netledger.suitespring;
 
 import com.netledger.suitespring.exception.DuplicateBeanException;
+import com.netledger.suitespring.exception.UnknownBeanReferenceException;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ import static org.junit.Assert.*;
  */
 public class GraphCheckerTest {
     @Test
-    public void detectsDuplicateBeans() {
+    public void detectsDuplicateBeans() throws UnknownBeanReferenceException {
         Map<String, BeanObj> beanGraph = new HashMap<>();
         beanGraph.put("foo", new BeanObj("foo", "Foo"));
         beanGraph.put("bar", new BeanObj("foo", "Foo"));
@@ -28,5 +29,23 @@ public class GraphCheckerTest {
         }
 
         fail("Didn't throw DuplicateBeanException");
+    }
+
+    @Test
+    public void detectUnknownBeanReferences() throws DuplicateBeanException {
+        Map<String, String> prop = new HashMap<>();
+        prop.put("foo", "NotABean");
+        Map<String, BeanObj> beanGraph = new HashMap<>();
+        beanGraph.put("foo", new BeanObj("foo", "Foo", new HashMap<>(), prop));
+
+        GraphChecker graphChecker = new GraphChecker(beanGraph);
+        try {
+            graphChecker.verify();
+        } catch(UnknownBeanReferenceException e) {
+            assertEquals("Unknown bean reference: NotABean", e.getMessage());
+            return;
+        }
+
+        fail("Didn't throw UnknownBeanReferenceException");
     }
 }

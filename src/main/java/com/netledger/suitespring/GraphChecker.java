@@ -1,6 +1,7 @@
 package com.netledger.suitespring;
 
 import com.netledger.suitespring.exception.DuplicateBeanException;
+import com.netledger.suitespring.exception.UnknownBeanReferenceException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,11 +16,11 @@ public class GraphChecker {
         this.beanGraph = graph;
     }
 
-    boolean verify() throws DuplicateBeanException {
+    boolean verify() throws DuplicateBeanException, UnknownBeanReferenceException {
         return performVerification(beanGraph);
     }
 
-    boolean performVerification(Map<String, BeanObj> toCheck) throws DuplicateBeanException {
+    boolean performVerification(Map<String, BeanObj> toCheck) throws DuplicateBeanException, UnknownBeanReferenceException {
         Map<String, Boolean> visited = new HashMap<>();
         // Duplicate checking.
         for(BeanObj bean : toCheck.values()) {
@@ -28,6 +29,13 @@ public class GraphChecker {
                 throw new DuplicateBeanException("Found duplicate bean: " + name);
             }
             visited.put(bean.getName(), true);
+
+            // Check reference validity.
+            for(String ref : bean.getReferences().values()) {
+                if(!beanGraph.containsKey(ref)) {
+                    throw new UnknownBeanReferenceException("Unknown bean reference: " + ref);
+                }
+            }
         }
 
         return true;
