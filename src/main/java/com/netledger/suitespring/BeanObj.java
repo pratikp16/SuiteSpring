@@ -1,5 +1,7 @@
 package com.netledger.suitespring;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -8,9 +10,23 @@ import java.util.Map;
 public class BeanObj {
     String name;
     String className;
-    Map<String, String> properties;
+    List<BeanProperty> properties;
 
-    BeanObj(String n, String cn, Map<String, Object> p) {
-        
+    public BeanObj(String name, String className, List<BeanProperty> properties) {
+        this.name = name;
+        this.className = className;
+        this.properties = properties;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getClassName() {
+        return className;
+    }
+
+    public List<BeanProperty> getProperties() {
+        return properties;
     }
 }
