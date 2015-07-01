@@ -1,0 +1,8 @@
+<beans>
+    <bean name="composite" classname="foo.Composite">
+        <p name="myComp" ref="compLeaf"/>
+    </bean>    
+    <bean name="compLeaf" classname="foo.Composite">
+        <p name="myComp" ref="composite"/>
+    </bean>
+</beans>
