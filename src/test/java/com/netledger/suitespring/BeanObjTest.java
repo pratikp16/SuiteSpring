@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
 public class BeanObjTest {
     @Test
     public void construct() {
-        BeanObj bean = new BeanObj("foo", "Foo", new ArrayList<BeanProperty>());
+        BeanObj bean = new BeanObj("foo", "Foo", new ArrayList<>());
         assertEquals("foo", bean.getName());
         assertEquals("Foo", bean.getClassName());
         assertEquals(new ArrayList<>(), bean.getProperties());
