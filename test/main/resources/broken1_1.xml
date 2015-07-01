@@ -1,0 +1,11 @@
+<beans>
+    <bean name="intHolder" classname="foo.IntHolder">
+        <p name="theInt" value="42"/>
+    </bean> 
+    <bean name="stringHolder" classname="foo.StrHolder">
+        <prop name="theString" value="Scooby Scooby Doo"/>
+    </bean> 
+    <bean name="intHolder" classname="foo.IntHolder">
+        <p name="theInt" value="216"/>
+    </bean> 
+</beans>
