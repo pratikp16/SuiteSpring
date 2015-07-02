@@ -43,8 +43,14 @@ public class BeanObj {
     public String toString() {
         StringBuilder string = new StringBuilder();
         string.append("Bean - name: ").append(name).append(", classname: ").append(className);
-        string.append("\n").append("     - properties: ").append(values);
 
-        return string.toString();
+        if (!values.isEmpty()) {
+            string.append("\n").append("     - values: ").append(values);
+        }
+        if (!references.isEmpty()) {
+            string.append("\n").append("     - references: ").append(references);
+        }
+
+        return string.append("\n").toString();
     }
 }

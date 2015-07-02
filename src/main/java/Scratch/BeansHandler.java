@@ -18,7 +18,8 @@ public class BeansHandler extends DefaultHandler {
     private List<BeanObj> beans;
     private String name;
     private String classname;
-    public Map<String, String> properties = new HashMap<>();
+    public Map<String, String> values = new HashMap<>();
+    public Map<String, String> references = new HashMap<>();
 
     public BeansHandler() {
         this.beans = new ArrayList<>();
@@ -38,10 +39,10 @@ public class BeansHandler extends DefaultHandler {
             String pRef = attributes.getValue("ref");
 
             if (pValue != null) {
-                properties.put(pName, pValue);
+                values.put(pName, pValue);
             }
             else if (pRef != null) {
-                properties.put(pName, pRef);
+                references.put(pName, pRef);
             }
         }
     }
@@ -49,11 +50,13 @@ public class BeansHandler extends DefaultHandler {
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException {
         if (qName.equals("bean")) {
-            Map<String, String> values = new HashMap<>(properties);
-            BeanObj newBean = new BeanObj(name, classname, values, new HashMap<String, String>());
+            Map<String, String> v = new HashMap<>(values);
+            Map<String, String> r = new HashMap<>(references);
+            BeanObj newBean = new BeanObj(name, classname, v, r);
             beans.add(newBean);
 
-            properties.clear();
+            values.clear();
+            references.clear();
         }
     }
 }
