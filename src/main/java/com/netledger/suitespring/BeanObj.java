@@ -40,4 +40,13 @@ public class BeanObj {
     public Map<String, String> getValues() {
         return values;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder string = new StringBuilder();
+        string.append("Bean - name: ").append(name).append(", classname: ").append(className);
+        string.append("\n").append("     - properties: ").append(values);
+
+        return string.toString();
+    }
 }

@@ -1,12 +1,12 @@
 package Scratch;
 
-
 import com.netledger.suitespring.BeanObj;
-import org.xml.sax.XMLReader;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,33 +15,45 @@ import java.util.Map;
  */
 public class BeansHandler extends DefaultHandler {
 
-    private XMLReader reader;
-
     private List<BeanObj> beans;
+    private String name;
+    private String classname;
+    public Map<String, String> properties = new HashMap<>();
 
-    public BeansHandler(XMLReader reader) {
-        this.reader = reader;
+    public BeansHandler() {
+        this.beans = new ArrayList<>();
     }
 
-    @Override
-    public void startElement(String uri,
-                             String localName, String qName, Attributes attributes)
-            throws SAXException {
+    public List<BeanObj> getBeans() { return beans; }
 
-        System.out.println( "BeansHandler Start :" + qName );
-        if (qName == "bean" ) {
-            reader.setContentHandler(new BeanHandler(reader, this));
+    @Override
+    public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
+        if (qName.equalsIgnoreCase("bean") ) {
+            name = attributes.getValue("name");
+            classname = attributes.getValue("classname");
         }
+        else if (qName.equalsIgnoreCase("p")) {
+            String pName = attributes.getValue("name");
+            String pValue = attributes.getValue("value");
+            String pRef = attributes.getValue("ref");
 
+            if (pValue != null) {
+                properties.put(pName, pValue);
+            }
+            else if (pRef != null) {
+                properties.put(pName, pRef);
+            }
+        }
     }
 
     @Override
-    public void endElement(String uri,
-                           String localName, String qName) throws SAXException {
-        System.out.println( "BeansHandler End" );
+    public void endElement(String uri, String localName, String qName) throws SAXException {
+        if (qName.equals("bean")) {
+            Map<String, String> values = new HashMap<>(properties);
+            BeanObj newBean = new BeanObj(name, classname, values, new HashMap<String, String>());
+            beans.add(newBean);
+
+            properties.clear();
+        }
     }
-
-
-
-
 }
