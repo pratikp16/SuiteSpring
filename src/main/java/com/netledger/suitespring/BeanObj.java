@@ -20,7 +20,7 @@ public class BeanObj {
     }
 
     public BeanObj(String name, String className) {
-        this(name, className, new HashMap<>(), new HashMap<>());
+        this(name, className, new HashMap<String, String>(), new HashMap<String, String>());
     }
 
     public String getName() {
