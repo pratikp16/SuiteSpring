@@ -37,7 +37,7 @@ public class GraphChecker {
                     throw new UnknownBeanReferenceException("Unknown bean reference: " + ref);
                 }
                 if(ref.equals(name)) {
-                    throw new BeanReferenceCycleException("Detected bean reference cycle for " + name);
+                    throw new BeanReferenceCycleException(name);
                 }
             }
         }

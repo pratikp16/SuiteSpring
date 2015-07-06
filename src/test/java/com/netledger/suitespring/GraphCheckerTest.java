@@ -1,11 +1,9 @@
 package com.netledger.suitespring;
 
-import com.netledger.suitespring.exception.BeanReferenceCycleException;
 import com.netledger.suitespring.exception.DuplicateBeanException;
 import com.netledger.suitespring.exception.UnknownBeanReferenceException;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,23 +46,5 @@ public class GraphCheckerTest {
         }
 
         fail("Didn't throw UnknownBeanReferenceException");
-    }
-
-    @Test
-    public void detectBeanReferenceCycles() throws Exception {
-        Map<String, String> prop = new HashMap<>();
-        prop.put("xxx", "foo");
-        Map<String, BeanObj> beanGraph = new HashMap<>();
-        beanGraph.put("foo", new BeanObj("foo", "Foo", new HashMap<>(), prop));
-
-        GraphChecker graphChecker = new GraphChecker(beanGraph);
-        try {
-            graphChecker.verify();
-        } catch(BeanReferenceCycleException e) {
-            assertEquals("Detected bean reference cycle for foo", e.getMessage());
-            return;
-        }
-
-        fail("Didn't throw BeanReferenceCycleException");
     }
 }
