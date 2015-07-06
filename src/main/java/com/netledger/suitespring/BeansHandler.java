@@ -15,16 +15,15 @@ import java.util.Map;
  */
 public class BeansHandler extends DefaultHandler {
 
-    private List<BeanObj> beans;
+    private Map<String, BeanObj> beans = new HashMap<>();
     private String name;
     private String classname;
     public Map<String, String> properties = new HashMap<>();
 
     public BeansHandler() {
-        this.beans = new ArrayList<>();
     }
 
-    public List<BeanObj> getBeans() { return beans; }
+    public Map<String, BeanObj> getBeans() { return beans; }
 
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
@@ -50,8 +49,7 @@ public class BeansHandler extends DefaultHandler {
     public void endElement(String uri, String localName, String qName) throws SAXException {
         if (qName.equals("bean")) {
             Map<String, String> values = new HashMap<>(properties);
-            BeanObj newBean = new BeanObj(name, classname, values, new HashMap<String, String>());
-            beans.add(newBean);
+            beans.put(name, new BeanObj(name, classname, values, new HashMap<>()));
 
             properties.clear();
         }
