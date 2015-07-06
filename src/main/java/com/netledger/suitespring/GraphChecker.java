@@ -17,6 +17,10 @@ public class GraphChecker {
         this.beanGraph = graph;
     }
 
+    public static boolean isOk(Map<String, BeanObj> graph) throws DuplicateBeanException, UnknownBeanReferenceException, BeanReferenceCycleException {
+        return new GraphChecker(graph).verify();
+    }
+
     boolean verify() throws DuplicateBeanException, UnknownBeanReferenceException, BeanReferenceCycleException {
         return performVerification(beanGraph);
     }
