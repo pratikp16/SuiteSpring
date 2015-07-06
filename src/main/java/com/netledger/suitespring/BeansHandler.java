@@ -1,4 +1,4 @@
-package Scratch;
+package com.netledger.suitespring;
 
 import com.netledger.suitespring.BeanObj;
 import org.xml.sax.Attributes;

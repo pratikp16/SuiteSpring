@@ -1,7 +1,7 @@
-package Scratch;
+package com.netledger.suitespring;
 
 import com.netledger.suitespring.BeanObj;
-import org.xml.sax.XMLReader;
+import com.netledger.suitespring.BeansHandler;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;

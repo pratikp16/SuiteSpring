@@ -1,5 +1,7 @@
 package Scratch;
 
+import com.netledger.suitespring.Bootstrap;
+
 /**
  * Created by bedwards on 01/07/15.
  */
