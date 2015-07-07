@@ -11,4 +11,9 @@ package foo;
  */
 public class IntHolder {
     int theInt;
+
+    @Override
+    public String toString() {
+        return "IntHolder with int " + theInt;
+    }
 }

@@ -11,4 +11,9 @@ package foo;
  */
 public class StrHolder {
     String theString;
+
+    @Override
+    public String toString() {
+        return "StrHolder with String " + theString;
+    }
 }

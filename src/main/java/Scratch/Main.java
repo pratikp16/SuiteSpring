@@ -2,6 +2,7 @@ package Scratch;
 
 import com.netledger.suitespring.BeanObj;
 import com.netledger.suitespring.Bootstrap;
+import com.netledger.suitespring.Gabriel;
 import com.netledger.suitespring.GraphChecker;
 import com.netledger.suitespring.exception.BeanReferenceCycleException;
 import com.netledger.suitespring.exception.DuplicateBeanException;
@@ -27,6 +28,11 @@ public class Main {
                 System.out.println("Graph checks out.");
         } catch(DuplicateBeanException | UnknownBeanReferenceException | BeanReferenceCycleException e){
             System.err.println("Graph was faulty: " + e.getMessage());
+        }
+
+        // XXX To get this to work make src/test/java a regular source of java. Yes that's horrid.
+        for(String beanName : beanGraph.keySet()) {
+            System.out.println("Gave life to '" + beanName + "' - " + Gabriel.beanToObject(beanGraph.get(beanName)));
         }
     }
 }
